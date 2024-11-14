@@ -100,6 +100,70 @@ const GameController = (() => {
     }
 })();
 
-let board = Gameboard.getBoard();
-let player = Player('Adams', 'O');
+// object to control the dom
+const DisplayController = (() => {
+    const cells = document.querySelectorAll('.cell');
+    const statusDisplay = document.getElementById('game-status');
+    const restartButton = document.getElementById('restart-button');
 
+    // cells eventListeners
+    cells.forEach(cell => {
+        cell.addEventListener('click', (event) => {
+        if (GameController.gameOver) return; // Prevent further clicks if the game is over
+    
+        const index = event.target.getAttribute('data-index');
+        const result = GameController.playTurn(index);
+    
+        if (result === `Invalid move! Try again.`) return; // Ignore invalid moves
+    
+        updateBoard(); // Update the board after a valid move
+        statusDisplay.textContent = result;
+
+        if (result.includes("wins")) {
+            statusDisplay.classList.remove('draw', 'game-over');
+            statusDisplay.classList.add('win');
+        } else if (result.includes("draw")) {
+            statusDisplay.classList.remove('game-over', 'win');
+            statusDisplay.classList.add('draw');
+        } else {
+            statusDisplay.classList.remove('game-over', 'win', 'draw');
+        }
+    
+        if (result.includes("wins") || result.includes("draw")) {
+            gameOver = true;
+        }
+        });
+    });
+
+    // update the visual display of the board
+    const updateBoard = () => {
+        const board = Gameboard.getBoard();
+        cells.forEach((cell, i) => {
+            cell.textContent = board[i];
+        });
+    }
+
+ // Restart button functionality
+restartButton.addEventListener('click', () => {
+    GameController.startGame("Player 1", "Player 2");
+    updateBoard();
+    statusDisplay.textContent = "Player 1's turn";
+
+    // Enable cells again for the next game
+    cells.forEach(cell => {
+        cell.style.pointerEvents = 'auto';  // Re-enable clicking
+        cell.textContent = '';  // Clear the cell content
+    });
+});
+
+
+    return {
+        updateBoard
+    }
+})();
+
+window.onload = () => {
+    GameController.startGame("Player 1", "Player 2"); // Start the game with default player names
+    DisplayController.updateBoard(); // Ensure the board is displayed correctly
+    document.getElementById('game-status').textContent = "Player 1's turn"; // Set the initial turn status
+};
