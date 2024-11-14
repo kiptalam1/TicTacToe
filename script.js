@@ -51,8 +51,29 @@ const GameController = (() => {
     };
 
     const playTurn = (index) => {
+        if (gameOver) return "Game Over";
+        // check if player can place marker
+        if (Gameboard.placeMarker(index, currentPlayer.symbol)) {
+            if (checkWinner(currentPlayer.symbol)) {
+                gameOver = true;
+                return `${currentPlayer.name} wins`;
+            }
 
+            if (isBoardFull()) {
+                gameOver = true;
+                return "It's a draw!";
+            }
+
+            switchPlayer();
+            return `${currentPlayer.name}'s turn`;
+        } else {
+            return `Invalid move! Try again.`;
+        };
     }
+
+    const isBoardFull = () => {
+        return Gameboard.getBoard().every(cell => cell !== "");
+    };
 
     const switchPlayer = () => {
         currentPlayer = currentPlayer === player1 ? player2 : player1;
@@ -75,7 +96,7 @@ const GameController = (() => {
     return {
         startGame,
         getCurrentPlayer,
-
+        playTurn
     }
 })();
 
