@@ -1,4 +1,4 @@
-
+// game board object
 const Gameboard  = (() => {
     const board = ['', '', '', '', '', '', '', '', ''];
 
@@ -13,7 +13,9 @@ const Gameboard  = (() => {
     }
 
     const resetBoard = () => {
-        board = ['', '', '', '', '', '', '', '', ''];
+        for (let i=0; i<board.length; i++) {
+            board[i] = '';
+        }
     }
 
     return {
@@ -23,6 +25,7 @@ const Gameboard  = (() => {
     };
 })();
 
+// player object
 function Player(name, symbol) {
     return {
         name, 
@@ -31,6 +34,37 @@ function Player(name, symbol) {
 }
 
 
+// game object
+const GameController = (() => {
+    let currentPlayer;
+    let player1;
+    let player2;
+    let gameOver = false;
+
+    const startGame = (p1Name, p2Name) => {
+        player1 = Player(p1Name, "X");
+        player2 = Player(p2Name, "O");
+        currentPlayer = player1;
+        gameOver = false;
+        Gameboard.resetBoard();
+    };
+
+    const playTurn = (index) => {
+
+    }
+
+    const switchPlayer = () => {
+        currentPlayer = currentPlayer === player1 ? player2 : player1;
+    }
+
+    const getCurrentPlayer = () => currentPlayer;
+
+    return {
+        startGame,
+        getCurrentPlayer,
+        
+    }
+})();
 
 let board = Gameboard.getBoard();
 let player = Player('Adams', 'O');
