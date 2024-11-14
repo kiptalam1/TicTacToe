@@ -4,18 +4,24 @@
     box-sizing: border-box;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-size: 16px;
-    outline: 1px solid greenyellow;
 }
 
 body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-color: rgb(226, 220, 220);
 }
 
 h1 {
     margin: 20px auto;
     font-size: 2rem;
+    color: rgb(43, 41, 41);
+    font-weight: 500;
+}
+h4 {
+    font-weight: 600;
+    margin: 20px 0;
 }
 
 #game-board {
@@ -29,11 +35,18 @@ h1 {
 }
 
 .cell {
-    border: 1px solid black;
+    border: 1px solid rgb(43, 41, 41);
+    color: brown;
+    font-size: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 #restart-button {
     font-size: 1.15rem;
+    color: brown;
+    background-color: beige;
     margin: 20px auto;
     padding: 5px;
     border-radius: 5px;
@@ -44,4 +57,30 @@ transition: all 0.2s ease;
 
 #restart-button:hover {
     transform: scale(1.01);
+    background-color: brown;
+    color: white;
+}
+
+#game-status {
+    margin: 20px;
+    padding: 5px;
+    font-size: 1.1rem;
+    color: rgb(43, 41, 41);
+
+}
+
+#game-status.win {
+    color: rgb(30, 178, 30);
+    font-size: 1.2rem;
+}
+
+#game-status.draw {
+    color: rgb(63, 63, 204);
+    font-size: 1.2rem;
+
+}
+
+#game-status.game-over {
+    font-size: 1.3rem;
+    color: rgb(220, 45, 45)
 }
